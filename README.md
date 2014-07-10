@@ -9,14 +9,15 @@ Support
 
 Report bugs and issues at <https://github.com/tiliado/nuvola-app-google-play/issues>.
 
+Build
+-----
+
+Execute ``make build``
+
 Copyright
 ---------
 
-  * ``integrate.js``, ``metadata.json``, ``README.md``
-      - Copyright 2011-2014 Jiří Janoušek <janousek.jiri@gmail.com>
-      - Copyright 2014 Martin Pöhlmann <martin.deimos@gmx.de>
-      - License: [2-Clause BSD-license](./LICENSE)
-
-  * ``icon.png``
-      - Copyright 2012 Alexander King
-      - License: [2-Clause BSD-license](./LICENSE)
+  - Copyright 2011-2014 Jiří Janoušek <janousek.jiri@gmail.com>
+  - Copyright 2014 Martin Pöhlmann <martin.deimos@gmx.de>
+  - Copyright 2012 Alexander King
+  - License: [2-Clause BSD-license](./LICENSE)
