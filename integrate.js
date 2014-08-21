@@ -70,6 +70,21 @@ WebApp._onInitWebWorker = function(emitter)
 	document.addEventListener("DOMContentLoaded", this._onPageReady.bind(this));
 }
 
+/**
+ * Signal handler for @link{Core::UriChanged}
+ */
+WebApp._onUriChanged = function(emitter, uri)
+{
+    /* 
+     * Users that use the queue page a lot might end up with it as a start-up page. However, this page is always empty
+     * and not useful at all, so load Listen now page instead. https://bugs.launchpad.net/nuvola-player/+bug/1306678
+     */
+    if (uri === "https://play.google.com/music/listen#/ap/queue")
+        uri = this.meta.home_url;
+    
+    Nuvola.WebApp._onUriChanged.call(this, emitter, uri);
+}
+
 WebApp._onPageReady = function(event)
 {
 	this.addNavigationButtons();
