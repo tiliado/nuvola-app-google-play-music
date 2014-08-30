@@ -33,8 +33,10 @@ var player = Nuvola.$object(Nuvola.MediaPlayer);
 var ACTION_THUMBS_UP = "thumbs-up";
 var ACTION_THUMBS_DOWN = "thumbs-down";
 var ACTION_RATING = "rating";
-var STARS_ACTIONS = ["rating::0", "rating::1", "rating::2", "rating::3", "rating::4", "rating::5"]
-var THUMBS_ACTIONS = ["thumbs-up", "thumbs-down"];
+var THUMBS_ACTIONS = [ACTION_THUMBS_UP, ACTION_THUMBS_DOWN];
+var STARS_ACTIONS = [];
+for (var i=0; i <= 5; i++)
+	STARS_ACTIONS.push(ACTION_RATING + "::" + i);
 
 var WebApp = Nuvola.$WebApp();
 
@@ -42,8 +44,9 @@ WebApp._onInitAppRunner = function(emitter, values, entries)
 {
 	Nuvola.WebApp._onInitAppRunner.call(this, emitter, values, entries);
 	
-	Nuvola.actions.addAction("playback", "win", "thumbs-up", "Thumbs up", null, null, null, true);
-	Nuvola.actions.addAction("playback", "win", "thumbs-down", "Thumbs down", null, null, null, true);
+	Nuvola.actions.addAction("playback", "win", ACTION_ALERT, "Alert!", null, null, null, null);
+	Nuvola.actions.addAction("playback", "win", ACTION_THUMBS_UP, "Thumbs up", null, null, null, true);
+	Nuvola.actions.addAction("playback", "win", ACTION_THUMBS_DOWN, "Thumbs down", null, null, null, true);
 	var ratingOptions = [
 		// Variant? parameter, string? label, string? mnemo_label, string? icon, string? keybinding
 		[0, "Rating: 0 stars", null, null, null, null],
@@ -53,7 +56,7 @@ WebApp._onInitAppRunner = function(emitter, values, entries)
 		[4, "Rating: 4 stars", null, null, null, null],
 		[5, "Rating: 5 stars", null, null, null, null]
 	];
-	Nuvola.actions.addRadioAction("playback", "win", "rating", 0, ratingOptions);
+	Nuvola.actions.addRadioAction("playback", "win", ACTION_RATING, 0, ratingOptions);
 }
 
 WebApp._onInitWebWorker = function(emitter)
