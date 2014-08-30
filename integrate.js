@@ -44,7 +44,6 @@ WebApp._onInitAppRunner = function(emitter, values, entries)
 {
 	Nuvola.WebApp._onInitAppRunner.call(this, emitter, values, entries);
 	
-	Nuvola.actions.addAction("playback", "win", ACTION_ALERT, "Alert!", null, null, null, null);
 	Nuvola.actions.addAction("playback", "win", ACTION_THUMBS_UP, "Thumbs up", null, null, null, true);
 	Nuvola.actions.addAction("playback", "win", ACTION_THUMBS_DOWN, "Thumbs down", null, null, null, true);
 	var ratingOptions = [
