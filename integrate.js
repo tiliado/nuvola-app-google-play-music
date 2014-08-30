@@ -48,7 +48,7 @@ WebApp._onInitAppRunner = function(emitter, values, entries)
 	Nuvola.actions.addAction("playback", "win", ACTION_THUMBS_UP, "Thumbs up", null, null, null, true);
 	Nuvola.actions.addAction("playback", "win", ACTION_THUMBS_DOWN, "Thumbs down", null, null, null, true);
 	var ratingOptions = [
-		// Variant? parameter, string? label, string? mnemo_label, string? icon, string? keybinding
+		// stateId, label, mnemo_label, icon, keybinding
 		[0, "Rating: 0 stars", null, null, null, null],
 		[1, "Rating: 1 star", null, null, null, null],
 		[2, "Rating: 2 stars", null, null, null, null],
@@ -88,7 +88,7 @@ WebApp._onUriChanged = function(emitter, uri)
     Nuvola.WebApp._onUriChanged.call(this, emitter, uri);
 }
 
-WebApp._onPageReady = function(event)
+WebApp._onPageReady = function()
 {
 	this.addNavigationButtons();
 	this.update();
@@ -246,7 +246,7 @@ WebApp.getPlayerButtons = function()
 	return elm ? elm.childNodes : null;
 }
 
-WebApp._onActionActivated = function(object, name, param)
+WebApp._onActionActivated = function(emitter, name, param)
 {
 	var buttons = this.getPlayerButtons();
 	if (buttons)
@@ -264,6 +264,7 @@ WebApp._onActionActivated = function(object, name, param)
 	
 	switch (name)
 	{
+	/* Base media player actions */
 	case PlayerAction.TOGGLE_PLAY:
 		Nuvola.clickOnElement(play_pause);
 		break;
@@ -284,6 +285,8 @@ WebApp._onActionActivated = function(object, name, param)
 		if (next_song)
 			Nuvola.clickOnElement(next_song);
 		break;
+	
+	/* Custom actions */
 	case ACTION_THUMBS_UP:
 		Nuvola.clickOnElement(this.getThumbs()[1]);
 		break;
