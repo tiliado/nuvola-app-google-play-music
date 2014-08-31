@@ -171,70 +171,44 @@ WebApp.update = function()
 	player.setCanGoPrev(prevSong);
 	player.setCanGoNext(nextSong);
 	
-	// null = disabled; true/false toggled on/off
-	var thumbsUp, thumbsDown;
+	// Extract enabled flag and state from a web page
+	var actionsEnabled = {};
+	var actionsStates = {};
 	try
 	{
+		actionsEnabled[ACTION_THUMBS_UP] = false;
+		actionsEnabled[ACTION_THUMBS_DOWN] = false;
 		var thumbs = this.getThumbs();
-		if (thumbs[0].style.visibility == "hidden")
-		{
-			thumbsUp = thumbsDown = null;
-		}
-		else
+		if (thumbs[0].style.visibility !== "hidden")
 		{
 			this.toggleThumbRating(true);
-			thumbsUp = thumbs[1].className == "selected";
-			thumbsDown = thumbs[2].className == "selected";
+			actionsStates[ACTION_THUMBS_UP] = thumbs[1].className === "selected";
+			actionsStates[ACTION_THUMBS_DOWN] = thumbs[2].className === "selected";
+			actionsEnabled[ACTION_THUMBS_UP] = true;
+			actionsEnabled[ACTION_THUMBS_DOWN] = true;
 		}
 	}
 	catch (e)
 	{
-		thumbsUp = thumbsDown = null;
 	}
-	
-	// null = disabled
-	var starRating;
 	try
 	{
+		actionsEnabled[ACTION_RATING] = false;
 		var stars = this.getStars();
-		if (stars.style.visibility == "hidden")
-		{
-			starRating = null;
-		}
-		else
+		if (stars.style.visibility !== "hidden")
 		{
 			this.toggleStarRating(true);
-			starRating = stars.childNodes[0].getAttribute("data-rating") * 1;
+			actionsStates[ACTION_RATING] = stars.childNodes[0].getAttribute("data-rating") * 1;
+			actionsEnabled[ACTION_RATING] = true;
 		}
 	}
 	catch (e)
 	{
-		starRating = null;
 	}
 	
-	if (this.thumbsUp !== thumbsUp)
-	{
-		this.thumbsUp = thumbsUp;
-		Nuvola.actions.setEnabled(ACTION_THUMBS_UP, thumbsUp !== null);
-		Nuvola.actions.setState(ACTION_THUMBS_UP, thumbsUp === true);
-	}
-	
-	if (this.thumbsDown !== thumbsDown)
-	{
-		this.thumbsDown = thumbsDown;
-		Nuvola.actions.setEnabled(ACTION_THUMBS_DOWN, thumbsDown !== null);
-		Nuvola.actions.setState(ACTION_THUMBS_DOWN, thumbsDown === true);
-	}
-	
-	if (this.starRating !== starRating)
-	{
-		this.starRating = starRating;
-		var enabled = starRating !== null;
-		Nuvola.actions.setEnabled(ACTION_RATING, enabled);
-		
-		if (enabled)
-			Nuvola.actions.setState(ACTION_RATING, starRating);
-	}
+	// Compare with previous values and update if necessary
+	Nuvola.actions.updateEnabledFlags(actionsEnabled);
+	Nuvola.actions.updateStates(actionsStates);
 	
 	setTimeout(this.update.bind(this), 500);
 }
