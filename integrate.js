@@ -26,6 +26,9 @@
 (function(Nuvola)
 {
 
+var C_ = Nuvola.Translate.pgettext;
+var ngettext = Nuvola.Translate.ngettext;
+
 var State = Nuvola.PlaybackState;
 var PlayerAction = Nuvola.PlayerAction;
 var player = Nuvola.$object(Nuvola.MediaPlayer);
@@ -44,17 +47,18 @@ WebApp._onInitAppRunner = function(emitter, values, entries)
 {
     Nuvola.WebApp._onInitAppRunner.call(this, emitter, values, entries);
     
-    Nuvola.actions.addAction("playback", "win", ACTION_THUMBS_UP, "Thumbs up", null, null, null, true);
-    Nuvola.actions.addAction("playback", "win", ACTION_THUMBS_DOWN, "Thumbs down", null, null, null, true);
-    var ratingOptions = [
-        // stateId, label, mnemo_label, icon, keybinding
-        [0, "Rating: 0 stars", null, null, null, null],
-        [1, "Rating: 1 star", null, null, null, null],
-        [2, "Rating: 2 stars", null, null, null, null],
-        [3, "Rating: 3 stars", null, null, null, null],
-        [4, "Rating: 4 stars", null, null, null, null],
-        [5, "Rating: 5 stars", null, null, null, null]
-    ];
+    Nuvola.actions.addAction("playback", "win", ACTION_THUMBS_UP, C_("Action", "Thumbs up"), null, null, null, true);
+    Nuvola.actions.addAction("playback", "win", ACTION_THUMBS_DOWN,C_("Action", "Thumbs down"), null, null, null, true);
+    var ratingOptions = [];
+    for (var stars = 0; stars < 6; stars++)
+        ratingOptions.push([
+            stars, // stateId, label, mnemo_label, icon, keybinding
+            /// Star rating, {1} is a placeholder for a number 
+            Nuvola.format(ngettext("Rating: {1} star", "Rating: {1} stars", stars), stars), // label
+            null, // mnemo_label
+            null, // icon
+            null  // keybinding
+            ]);
     Nuvola.actions.addRadioAction("playback", "win", ACTION_RATING, 0, ratingOptions);
 }
 
