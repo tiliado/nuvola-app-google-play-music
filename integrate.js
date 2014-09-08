@@ -43,9 +43,9 @@ for (var i=0; i <= 5; i++)
 
 var WebApp = Nuvola.$WebApp();
 
-WebApp._onInitAppRunner = function(emitter, values, entries)
+WebApp._onInitAppRunner = function(emitter)
 {
-    Nuvola.WebApp._onInitAppRunner.call(this, emitter, values, entries);
+    Nuvola.WebApp._onInitAppRunner.call(this, emitter);
     
     Nuvola.actions.addAction("playback", "win", ACTION_THUMBS_UP, C_("Action", "Thumbs up"), null, null, null, true);
     Nuvola.actions.addAction("playback", "win", ACTION_THUMBS_DOWN,C_("Action", "Thumbs down"), null, null, null, true);
