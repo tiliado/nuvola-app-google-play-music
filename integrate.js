@@ -171,7 +171,7 @@ WebApp.update = function()
     
     player.setPlaybackState(this.state);
     player.setCanPause(this.state === State.PLAYING);
-    player.setCanPlay(this.state === State.PAUSED);
+    player.setCanPlay(this.state === State.PAUSED || this.state === State.UNKNOWN && this._luckyMix());
     player.setCanGoPrev(prevSong);
     player.setCanGoNext(nextSong);
     
@@ -243,10 +243,17 @@ WebApp._onActionActivated = function(emitter, name, param)
     {
     /* Base media player actions */
     case PlayerAction.TOGGLE_PLAY:
-        Nuvola.clickOnElement(play_pause);
+        var luckyMix = this._luckyMix();
+        if (this.state === State.UNKNOWN && luckyMix)
+            Nuvola.clickOnElement(luckyMix);
+        else
+            Nuvola.clickOnElement(play_pause);
         break;
     case PlayerAction.PLAY:
-        if (this.state != State.PLAYING)
+        var luckyMix = this._luckyMix();
+        if (this.state === State.UNKNOWN && luckyMix)
+            Nuvola.clickOnElement(luckyMix);
+        else if (this.state != State.PLAYING)
             Nuvola.clickOnElement(play_pause);
         break;
     case PlayerAction.PAUSE:
@@ -353,6 +360,11 @@ WebApp.toggleThumbRating = function(enabled)
         player.addExtraActions(THUMBS_ACTIONS);
         this.thumbRatingEnabled = true;
     }
+}
+
+WebApp._luckyMix = function()
+{
+    return location.hash === "#/now" ? document.querySelector("div.ifl-group div.card[data-type=imfl] div.radio-icon") || false : false;
 }
 
 WebApp.start();
