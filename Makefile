@@ -20,11 +20,12 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+# Service integration id
+APP_ID = google-play-music
 # Dependencies
 DEPS = rsvg-convert
-
-DEST ?= $(HOME)/.local/share/nuvolaplayer3/web_apps/googleplay
-
+# Default installation destination
+DEST ?= $(HOME)/.local/share/nuvolaplayer3/web_apps
 # Size of PNG app icon
 ICON_SIZE ?= 48
 
@@ -48,8 +49,8 @@ clean:
 	rm -f icon.png
 
 install: LICENSE metadata.json integrate.js icon.png
-	install -vCd $(DEST)
-	install -vC $^ $(DEST)
+	install -vCd $(DEST)/$(APP_ID)
+	install -vC $^ $(DEST)/$(APP_ID)
 
 uninstall:
-	rm -rv $(DEST)
+	rm -rv $(DEST)/$(APP_ID)
