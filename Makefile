@@ -21,7 +21,7 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 # Service integration id
-APP_ID = google-play-music
+APP_ID = google_play_music
 # Dependencies
 DEPS = rsvg-convert
 # Default installation destination
