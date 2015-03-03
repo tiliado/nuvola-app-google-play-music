@@ -27,7 +27,7 @@ DEPS = rsvg-convert
 # Default installation destination
 DEST ?= $(HOME)/.local/share/nuvolaplayer3/web_apps
 # Size of PNG app icon
-ICON_SIZE ?= 48
+ICON_SIZE ?= 128
 
 help:
 	@echo "make deps                - check whether dependencies are satisfied"
