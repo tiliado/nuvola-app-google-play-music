@@ -37,11 +37,34 @@ var ACTION_THUMBS_UP = "thumbs-up";
 var ACTION_THUMBS_DOWN = "thumbs-down";
 var THUMBS_ACTIONS = [ACTION_THUMBS_UP, ACTION_THUMBS_DOWN];
 
+if (!String.prototype.endsWith)
+{
+    String.prototype.endsWith = function(searchString, position)
+    {
+        var subjectString = this.toString();
+        if (position === undefined || position > subjectString.length)
+            position = subjectString.length;
+        position -= searchString.length;
+        var lastIndex = subjectString.indexOf(searchString, position);
+        return lastIndex !== -1 && lastIndex === position;
+    };
+}
+
 var WebApp = Nuvola.$WebApp();
 
 WebApp._onInitAppRunner = function(emitter)
 {
     Nuvola.WebApp._onInitAppRunner.call(this, emitter);
+    try
+    {
+        Nuvola.core.connect("ResourceRequest", this);
+    }
+    catch (e)
+    {
+        var msg = "\n\n{1} integration script {2}.{3} requires a newer version of Nuvola Player 3"
+         + " to apply a workaround for a Google Play Music bug.";
+        throw new Error(Nuvola.format(msg, this.meta.name, this.meta.version_major, this.meta.version_minor));
+    }
     
     Nuvola.actions.addAction("playback", "win", ACTION_THUMBS_UP, C_("Action", "Thumbs up"), null, null, null, true);
     Nuvola.actions.addAction("playback", "win", ACTION_THUMBS_DOWN,C_("Action", "Thumbs down"), null, null, null, true);
@@ -57,6 +80,19 @@ WebApp._onInitWebWorker = function(emitter)
     this.state = State.UNKNOWN;
     player.addExtraActions(THUMBS_ACTIONS);
     document.addEventListener("DOMContentLoaded", this._onPageReady.bind(this));
+}
+
+WebApp._onResourceRequest = function(emitter, request)
+{
+    var FIXED_WEBCOMPONENTS = (
+            "https://raw.githubusercontent.com/tiliado/nuvola-app-google-play/"
+            + "16627e12bf115fcaa97f4abc581382c2251f0e76/webcomponents.js");
+    
+    if (request.url.endsWith("webcomponents.js") && request.url != FIXED_WEBCOMPONENTS)
+    {
+        request.url = FIXED_WEBCOMPONENTS;
+        Nuvola.log("Fixed webcomponents: {1}", request.url);
+    }
 }
 
 /**
@@ -81,6 +117,41 @@ WebApp._onPageReady = function()
 
 WebApp.update = function()
 {
+    this.state = State.UNKNOWN;
+    var prevSong, nextSong, canPlay, canPause;
+    try
+    {
+        var pp = this._getPlayPauseButton();
+        if (pp.disabled === true)
+            this.state = State.UNKNOWN;
+        else if (pp.className == "playing")
+            this.state = State.PLAYING;
+        else
+            this.state = State.PAUSED;
+        
+        if (this.state !== State.UNKNOWN)
+        {
+            prevSong = this._getGoPrevButton().disabled === false;
+            nextSong = this._getGoNextButton().disabled === false;
+        }
+        else
+        {
+            prevSong = nextSong = false;
+        }
+    }
+    catch (e)
+    {
+        this.state = State.UNKNOWN;
+        this.scheduleUpdate();
+        return;
+    }
+    
+    player.setPlaybackState(this.state);
+    player.setCanPause(this.state === State.PLAYING);
+    player.setCanPlay(this.state === State.PAUSED || this.state === State.UNKNOWN && this._luckyMix());
+    player.setCanGoPrev(prevSong);
+    player.setCanGoNext(nextSong);
+    
     var track = {};
     try
     {
@@ -123,40 +194,6 @@ WebApp.update = function()
     
     player.setTrack(track);
     
-    this.state = State.UNKNOWN;
-    var prevSong, nextSong, canPlay, canPause;
-    try
-    {
-        var buttons = document.querySelector("#player .player-middle");
-        var pp = this._getPlayPauseButton();
-        if (pp.disabled === true)
-            this.state = State.UNKNOWN;
-        else if (pp.className == "playing")
-            this.state = State.PLAYING;
-        else
-            this.state = State.PAUSED;
-        
-        if (this.state !== State.UNKNOWN)
-        {
-            prevSong = this._getGoPrevButton().disabled === false;
-            nextSong = this._getGoNextButton().disabled === false;
-        }
-        else
-        {
-            prevSong = nextSong = false;
-        }
-    }
-    catch (e)
-    {
-        prevSong = nextSong = false;
-    }
-    
-    player.setPlaybackState(this.state);
-    player.setCanPause(this.state === State.PLAYING);
-    player.setCanPlay(this.state === State.PAUSED || this.state === State.UNKNOWN && this._luckyMix());
-    player.setCanGoPrev(prevSong);
-    player.setCanGoNext(nextSong);
-    
     // Extract enabled flag and state from a web page
     var actionsEnabled = {};
     var actionsStates = {};
@@ -171,9 +208,13 @@ WebApp.update = function()
     Nuvola.actions.updateEnabledFlags(actionsEnabled);
     Nuvola.actions.updateStates(actionsStates);
     
-    setTimeout(this.update.bind(this), 500);
+    this.scheduleUpdate();
 }
 
+WebApp.scheduleUpdate = function()
+{
+    setTimeout(this.update.bind(this), 500);
+}
 
 WebApp._getButton = function(id)
 {
