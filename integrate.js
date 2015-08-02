@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2014 Jiří Janoušek <janousek.jiri@gmail.com>
+ * Copyright 2011-2015 Jiří Janoušek <janousek.jiri@gmail.com>
  * Copyright 2014 Martin Pöhlmann <martin.deimos@gmx.de>
  *
  * Redistribution and use in source and binary forms, with or without
@@ -117,6 +117,14 @@ WebApp._onPageReady = function()
 
 WebApp.update = function()
 {
+    var elm;
+    /* Fix for Google Play Music shows an incomplete queue. https://github.com/tiliado/nuvolaplayer/issues/106 */
+    if (!this._queueOverlayFixed && (elm = document.getElementById("queue-overlay")) && elm.hasAttribute("layout"))
+    {
+        elm.removeAttribute("layout");
+        this._queueOverlayFixed = true;
+    }
+    
     this.state = State.UNKNOWN;
     var prevSong, nextSong, canPlay, canPause;
     try
@@ -164,7 +172,7 @@ WebApp.update = function()
     
     try
     {
-        var elm = document.getElementById('player-song-title').firstChild;
+        elm = document.getElementById('player-song-title').firstChild;
         track.title = elm.innerText || elm.textContent;
     }
     catch(e)
@@ -174,7 +182,7 @@ WebApp.update = function()
     
     try
     {
-        var elm = document.getElementById('player-artist').firstChild;
+        elm = document.getElementById('player-artist').firstChild;
         track.artist = elm.innerText || elm.textContent;
     }
     catch (e)
@@ -184,7 +192,7 @@ WebApp.update = function()
     
     try
     {
-        var elm = document.querySelector("#playerSongInfo .player-album");
+        elm = document.querySelector("#playerSongInfo .player-album");
         track.album = elm.innerText || elm.textContent;
     }
     catch (e)
