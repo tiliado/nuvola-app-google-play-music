@@ -84,11 +84,8 @@ WebApp._onInitWebWorker = function(emitter)
 
 WebApp._onResourceRequest = function(emitter, request)
 {
-    var FIXED_WEBCOMPONENTS = (
-            "https://raw.githubusercontent.com/tiliado/nuvola-app-google-play/"
-            + "16627e12bf115fcaa97f4abc581382c2251f0e76/webcomponents.js");
-    
-    if (request.url.endsWith("webcomponents.js") && request.url != FIXED_WEBCOMPONENTS)
+    var FIXED_WEBCOMPONENTS = "nuvola://webcomponents.js";
+    if (request.url.endsWith("webcomponents.min.js") || request.url.endsWith("webcomponents.js"))
     {
         request.url = FIXED_WEBCOMPONENTS;
         Nuvola.log("Fixed webcomponents: {1}", request.url);
