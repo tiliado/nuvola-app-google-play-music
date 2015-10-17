@@ -223,7 +223,7 @@ WebApp.scheduleUpdate = function()
 
 WebApp._getButton = function(id)
 {
-    return document.querySelector("sj-icon-button[data-id=" + id + "]");
+    return document.querySelector("[data-id=" + id + "]");
 }
 
 WebApp._getPlayPauseButton = function()
@@ -248,12 +248,12 @@ WebApp._getShuffleButton = function()
 
 WebApp._getThumbsUpButton = function()
 {
-    return document.querySelector(".player-rating-container sj-icon-button[data-rating='5']");
+    return document.querySelector(".player-rating-container [data-rating='5']");
 }
 
 WebApp._getThumbsDownButton = function()
 {
-    return document.querySelector(".player-rating-container sj-icon-button[data-rating='1']");
+    return document.querySelector(".player-rating-container [data-rating='1']");
 }
 
 WebApp._isThumbSelected = function(elm)
