@@ -129,7 +129,7 @@ WebApp.update = function()
         var pp = this._getPlayPauseButton();
         if (pp.disabled === true)
             this.state = State.UNKNOWN;
-        else if (pp.className == "playing")
+        else if (pp.className.indexOf("playing") !== -1)
             this.state = State.PLAYING;
         else
             this.state = State.PAUSED;
@@ -258,7 +258,7 @@ WebApp._getThumbsDownButton = function()
 
 WebApp._isThumbSelected = function(elm)
 {
-    return elm ? elm.$.icon.getAttribute('aria-label').indexOf('-outline') == -1: false;
+    return (elm && elm.icon) ? elm.icon.indexOf('-outline') == -1 : false;
 }
 
 WebApp._onActionActivated = function(emitter, name, param)
