@@ -169,7 +169,7 @@ WebApp.update = function()
     
     try
     {
-        elm = document.getElementById('player-song-title').firstChild;
+        elm = document.querySelector("#playerSongInfo #currently-playing-title");
         track.title = elm.innerText || elm.textContent;
     }
     catch(e)
