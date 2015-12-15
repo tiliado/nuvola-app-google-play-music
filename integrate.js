@@ -160,7 +160,7 @@ WebApp.update = function()
     var track = {};
     try
     {
-        track.artLocation = document.getElementById('playingAlbumArt').src.replace("=s90-", "=s500-");
+        track.artLocation = document.querySelector("#playerSongInfo #playerBarArt").src.replace("=s90-", "=s500-");
     }
     catch(e)
     {
