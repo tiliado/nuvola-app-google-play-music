@@ -21,7 +21,7 @@ Installation
 Copyright
 ---------
 
-  - Copyright 2011-2014 Jiří Janoušek <janousek.jiri@gmail.com>
+  - Copyright 2011-2015 Jiří Janoušek <janousek.jiri@gmail.com>
   - Copyright 2014 Martin Pöhlmann <martin.deimos@gmx.de>
-  - Copyright 2012 Alexander King
+  - Copyright 2012-2015 Alexander King
   - License: [2-Clause BSD-license](./LICENSE)

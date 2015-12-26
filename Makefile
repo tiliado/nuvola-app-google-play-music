@@ -1,4 +1,4 @@
-# Copyright 2014 Jiří Janoušek <janousek.jiri@gmail.com>
+# Copyright 2014-2015 Jiří Janoušek <janousek.jiri@gmail.com>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met: 
@@ -26,8 +26,17 @@ APP_ID = google_play_music
 DEPS = rsvg-convert
 # Default installation destination
 DEST ?= $(HOME)/.local/share/nuvolaplayer3/web_apps
-# Size of PNG app icon
-ICON_SIZE ?= 128
+# Sizes of the whole icon set
+ICON_SIZES = 16 22 24 32 48 64 128 256
+# Filenames
+INSTALL_FILES = metadata.json integrate.js webcomponents.js
+LICENSES = LICENSE
+SOURCE_ICON = src/icon.svg
+SOURCE_ICON_XS = src/icon-xs.svg
+SOURCE_ICON_SM = src/icon-sm.svg
+ICONS_DIR ?= icons
+PNG_ICONS = $(foreach size,$(ICON_SIZES),$(ICONS_DIR)/$(size).png)
+SCALABLE_ICON = $(ICONS_DIR)/scalable.svg
 
 help:
 	@echo "make deps                - check whether dependencies are satisfied"
@@ -40,17 +49,66 @@ help:
 deps:
 	@$(foreach dep, $(DEPS), which $(dep) > /dev/null || (echo "Program $(dep) not found"; exit 1;);)
 
-build: deps icon.png 
+build: deps $(PNG_ICONS) $(SCALABLE_ICON)
 
-icon.png : src/icon.svg
-	rsvg-convert -w $(ICON_SIZE) -h $(ICON_SIZE) $< -o $@
+# Create icons dir
+$(ICONS_DIR):
+	mkdir -p $@
+	
+# Generate icon 16
+$(ICONS_DIR)/16.png: $(SOURCE_ICON_XS) | $(ICONS_DIR)
+	rsvg-convert -w 16 -h 16 $< -o $@
 
+# Generate icon 22	
+$(ICONS_DIR)/22.png : $(SOURCE_ICON_XS) | $(ICONS_DIR)
+	rsvg-convert -w 22 -h 22 $< -o $@
+
+# Generate icon 24	
+$(ICONS_DIR)/24.png : $(SOURCE_ICON_XS) | $(ICONS_DIR)
+	rsvg-convert -w 24 -h 24 $< -o $@
+
+# Generate icon 32	
+$(ICONS_DIR)/32.png : $(SOURCE_ICON_SM) | $(ICONS_DIR)
+	rsvg-convert -w 32 -h 32 $< -o $@
+
+# Generate icon 48
+$(ICONS_DIR)/48.png : $(SOURCE_ICON_SM) | $(ICONS_DIR)
+	rsvg-convert -w 48 -h 48 $< -o $@
+
+# Generate icons 64 128 256
+$(ICONS_DIR)/%.png : $(SOURCE_ICON) | $(ICONS_DIR)
+	rsvg-convert -w $* -h $* $< -o $@
+
+# Copy scalable icon
+$(SCALABLE_ICON) : $(SOURCE_ICON) | $(ICONS_DIR)
+	cp $< $@
+
+# Clean built files
 clean:
-	rm -f icon.png
+	rm -rf icons
 
-install: LICENSE metadata.json integrate.js icon.png webcomponents.js
-	install -vCd $(DEST)/$(APP_ID)
-	install -vC $^ $(DEST)/$(APP_ID)
+# Install files
+install: $(LICENSES) $(INSTALL_FILES) $(PNG_ICONS) $(SCALABLE_ICON)
+	# Install data
+	install -vCd $(DEST)/$(APP_ID)/$(ICONS_DIR)
+	install -vC -t $(DEST)/$(APP_ID) $(LICENSES) $(INSTALL_FILES)
+	install -vC -t $(DEST)/$(APP_ID)/$(ICONS_DIR) $(PNG_ICONS) $(SCALABLE_ICON)
+	
+	# Create symlinks to icons
+	mkdir -pv $(DEST)/../../icons/hicolor/scalable/apps || true
+	ln -s -f -v -T $(DEST)/$(APP_ID)/$(SCALABLE_ICON) \
+		$(DEST)/../../icons/hicolor/scalable/apps/nuvolaplayer3_$(APP_ID).svg;
+	for size in $(ICON_SIZES); do \
+		mkdir -pv $(DEST)/../../icons/hicolor/$${size}x$${size}/apps || true ; \
+		ln -s -f -v -T $(DEST)/$(APP_ID)/$(ICONS_DIR)/$$size.png \
+		$(DEST)/../../icons/hicolor/$${size}x$${size}/apps/nuvolaplayer3_$(APP_ID).png; \
+	done
+	
 
+# Uninstall files
 uninstall:
-	rm -rv $(DEST)/$(APP_ID)
+	rm -fv $(DEST)/../../icons/hicolor/scalable/apps/nuvolaplayer3_$(APP_ID).svg
+	for size in $(ICON_SIZES); do \
+		rm -fv $(DEST)/../../icons/hicolor/$${size}x$${size}/apps/nuvolaplayer3_$(APP_ID).png; \
+	done
+	rm -rfv $(DEST)/$(APP_ID)

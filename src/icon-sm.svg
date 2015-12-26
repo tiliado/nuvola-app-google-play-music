@@ -10,12 +10,12 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="512"
-   height="512"
+   width="32"
+   height="32"
    id="svg3132"
    version="1.1"
    inkscape:version="0.48.5 r10040"
-   sodipodi:docname="icon.svg">
+   sodipodi:docname="icon-sm.svg">
   <defs
      id="defs3134">
     <linearGradient
@@ -34,7 +34,7 @@
        xlink:href="#linearGradient7567"
        id="linearGradient2995"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(8.1588381,0,0,8.1470381,113.54567,271.6564)"
+       gradientTransform="matrix(0.50992738,0,0,0.50918988,358.6591,516.06807)"
        x1="61.9585"
        y1="3"
        x2="2.41994"
@@ -47,9 +47,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.01"
-     inkscape:cx="-202.91089"
-     inkscape:cy="254.0198"
+     inkscape:zoom="1"
+     inkscape:cx="-253.75"
+     inkscape:cy="14.019802"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -78,18 +78,18 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-118.99999,-276.36218)">
+     transform="translate(-359,-516.36218)">
     <rect
        style="fill:url(#linearGradient2995);fill-opacity:1;stroke:none"
        id="rect2993"
-       width="512"
-       height="512"
-       x="118.99999"
-       y="276.36218"
-       ry="24" />
+       width="32"
+       height="32"
+       x="359"
+       y="516.36218"
+       ry="1.5" />
     <g
        id="g2997"
-       transform="matrix(1.1192453,0,0,1.1192453,-71.190634,-56.459499)">
+       transform="matrix(0.07674872,0,0,0.07674872,345.88219,491.98559)">
       <path
          sodipodi:nodetypes="ccccccccccc"
          inkscape:connector-curvature="0"
