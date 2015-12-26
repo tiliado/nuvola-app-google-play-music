@@ -29,7 +29,7 @@ DEST ?= $(HOME)/.local/share/nuvolaplayer3/web_apps
 # Sizes of the whole icon set
 ICON_SIZES = 16 22 24 32 48 64 128 256
 # Filenames
-INSTALL_FILES = metadata.json integrate.js webcomponents.js
+INSTALL_FILES = metadata.json integrate.js
 LICENSES = LICENSE
 SOURCE_ICON = src/icon.svg
 SOURCE_ICON_XS = src/icon-xs.svg

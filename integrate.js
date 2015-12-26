@@ -55,17 +55,6 @@ var WebApp = Nuvola.$WebApp();
 WebApp._onInitAppRunner = function(emitter)
 {
     Nuvola.WebApp._onInitAppRunner.call(this, emitter);
-    try
-    {
-        Nuvola.core.connect("ResourceRequest", this);
-    }
-    catch (e)
-    {
-        var msg = "\n\n{1} integration script {2}.{3} requires a newer version of Nuvola Player 3"
-         + " to apply a workaround for a Google Play Music bug.";
-        throw new Error(Nuvola.format(msg, this.meta.name, this.meta.version_major, this.meta.version_minor));
-    }
-    
     Nuvola.actions.addAction("playback", "win", ACTION_THUMBS_UP, C_("Action", "Thumbs up"), null, null, null, true);
     Nuvola.actions.addAction("playback", "win", ACTION_THUMBS_DOWN,C_("Action", "Thumbs down"), null, null, null, true);
 }
@@ -80,16 +69,6 @@ WebApp._onInitWebWorker = function(emitter)
     this.state = State.UNKNOWN;
     player.addExtraActions(THUMBS_ACTIONS);
     document.addEventListener("DOMContentLoaded", this._onPageReady.bind(this));
-}
-
-WebApp._onResourceRequest = function(emitter, request)
-{
-    var FIXED_WEBCOMPONENTS = "nuvola://webcomponents.js";
-    if (request.url.endsWith("webcomponents.min.js") || request.url.endsWith("webcomponents.js"))
-    {
-        request.url = FIXED_WEBCOMPONENTS;
-        Nuvola.log("Fixed webcomponents: {1}", request.url);
-    }
 }
 
 /**
