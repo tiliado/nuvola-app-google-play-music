@@ -96,11 +96,11 @@ install: $(LICENSES) $(INSTALL_FILES) $(PNG_ICONS) $(SCALABLE_ICON)
 	
 	# Create symlinks to icons
 	mkdir -pv $(DEST)/../../icons/hicolor/scalable/apps || true
-	ln -s -f -v -T $(DEST)/$(APP_ID)/$(SCALABLE_ICON) \
+	ln -s -f -v -T ../../../../$(APP_ID)/$(SCALABLE_ICON) \
 		$(DEST)/../../icons/hicolor/scalable/apps/nuvolaplayer3_$(APP_ID).svg;
 	for size in $(ICON_SIZES); do \
 		mkdir -pv $(DEST)/../../icons/hicolor/$${size}x$${size}/apps || true ; \
-		ln -s -f -v -T $(DEST)/$(APP_ID)/$(ICONS_DIR)/$$size.png \
+		ln -s -f -v -T ../../../../nuvolaplayer3/web_apps/$(APP_ID)/$(ICONS_DIR)/$$size.png \
 		$(DEST)/../../icons/hicolor/$${size}x$${size}/apps/nuvolaplayer3_$(APP_ID).png; \
 	done
 	
