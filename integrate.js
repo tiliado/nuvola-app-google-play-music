@@ -176,13 +176,20 @@ WebApp.update = function()
         track.album = null;
     }
     
+    var thumbsUp = this._getThumbsUpButton();
+    var thumbsDown = this._getThumbsDownButton();
+    if (this._isThumbSelected(thumbsUp))
+        track.rating = 1.0;
+    else if (this._isThumbSelected(thumbsDown))
+        track.rating = 0.20;
+    else
+        track.rating = 0.0;
+    
     player.setTrack(track);
     
     // Extract enabled flag and state from a web page
     var actionsEnabled = {};
     var actionsStates = {};
-    var thumbsUp = this._getThumbsUpButton();
-    var thumbsDown = this._getThumbsDownButton();
     actionsStates[ACTION_THUMBS_UP] = this._isThumbSelected(thumbsUp);
     actionsStates[ACTION_THUMBS_DOWN] = this._isThumbSelected(thumbsDown);
     actionsEnabled[ACTION_THUMBS_UP] = !!thumbsUp;
