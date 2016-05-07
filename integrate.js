@@ -88,6 +88,10 @@ WebApp._onUriChanged = function(emitter, uri)
 
 WebApp._onPageReady = function()
 {
+    // Connect rating handler if supported
+    if ((Nuvola.API_VERSION || 300) >= 301) // API 3.1
+        player.connect("RatingSet", this);
+
     this.update();
 }
 
@@ -135,6 +139,9 @@ WebApp.update = function()
     player.setCanPlay(this.state === State.PAUSED || this.state === State.UNKNOWN && this._luckyMix());
     player.setCanGoPrev(prevSong);
     player.setCanGoNext(nextSong);
+    
+    if ((Nuvola.API_VERSION || 300) >= 301) // API 3.1
+        player.setCanRate(this.state !== State.UNKNOWN);
     
     var track = {};
     try
@@ -290,6 +297,36 @@ WebApp._onActionActivated = function(emitter, name, param)
     case ACTION_THUMBS_DOWN:
         this._getThumbsDownButton().click();
         break;
+    }
+}
+
+// Handler for rating
+WebApp._onRatingSet = function(emitter, rating)
+{
+    Nuvola.log("Rating set: {1}", rating);
+    var thumbsUp = this._getThumbsUpButton();
+    var thumbsDown = this._getThumbsDownButton();
+    if (rating < 0.01) // Unset rating
+    {
+        if (this._isThumbSelected(thumbsUp))
+            thumbsUp.click();
+        else if (this._isThumbSelected(thumbsDown))
+            thumbsDown.click();
+    }
+    else if (rating <= 0.41) // 0-2 stars
+    {
+        if (!this._isThumbSelected(thumbsDown))
+            thumbsDown.click();
+    }
+    else if (rating >= 0.79) // 4-5 stars
+    {
+        if (!this._isThumbSelected(thumbsUp))
+            thumbsUp.click();
+    }
+    else  // three stars
+    {
+        window.alert("Invalid rating: " + rating + "." 
+        + "Have you clicked the three-star button? It isn't supported.");
     }
 }
 
