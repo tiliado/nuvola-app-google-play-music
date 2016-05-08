@@ -1,8 +1,8 @@
 Changelog
 =========
 
-5.13 - not released yet
------------------------
+5.13 - May 8th, 2016
+--------------------
 
   * Export thumbs up/down track rating over MPRIS interface. It is shown as one star (thumbs down) or five stars
     (thumbs up) in Media Player Indicator GNOME Shell extension, for example. Issue: tiliado/nuvolaplayer#204
