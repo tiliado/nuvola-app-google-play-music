@@ -57,27 +57,35 @@ $(ICONS_DIR):
 	
 # Generate icon 16
 $(ICONS_DIR)/16.png: $(SOURCE_ICON_XS) | $(ICONS_DIR)
-	rsvg-convert -w 16 -h 16 $< -o $@
+	rsvg-convert -z 1 $< -o $@
 
 # Generate icon 22	
 $(ICONS_DIR)/22.png : $(SOURCE_ICON_XS) | $(ICONS_DIR)
-	rsvg-convert -w 22 -h 22 $< -o $@
+	rsvg-convert -z 1.375 $< -o $@
 
 # Generate icon 24	
 $(ICONS_DIR)/24.png : $(SOURCE_ICON_XS) | $(ICONS_DIR)
-	rsvg-convert -w 24 -h 24 $< -o $@
+	rsvg-convert -z 1.5 $< -o $@
 
 # Generate icon 32	
 $(ICONS_DIR)/32.png : $(SOURCE_ICON_SM) | $(ICONS_DIR)
-	rsvg-convert -w 32 -h 32 $< -o $@
+	rsvg-convert -z 1 $< -o $@
 
 # Generate icon 48
 $(ICONS_DIR)/48.png : $(SOURCE_ICON_SM) | $(ICONS_DIR)
-	rsvg-convert -w 48 -h 48 $< -o $@
+	rsvg-convert -z 1.5 $< -o $@
 
-# Generate icons 64 128 256
-$(ICONS_DIR)/%.png : $(SOURCE_ICON) | $(ICONS_DIR)
-	rsvg-convert -w $* -h $* $< -o $@
+# Generate icon 64
+$(ICONS_DIR)/64.png : $(SOURCE_ICON) | $(ICONS_DIR)
+	rsvg-convert -z 0.125 $< -o $@
+
+# Generate icon 128
+$(ICONS_DIR)/128.png : $(SOURCE_ICON) | $(ICONS_DIR)
+	rsvg-convert -z 0.25 $< -o $@
+
+# Generate icon 256
+$(ICONS_DIR)/256.png : $(SOURCE_ICON) | $(ICONS_DIR)
+	rsvg-convert -z 0.5 $< -o $@
 
 # Copy scalable icon
 $(SCALABLE_ICON) : $(SOURCE_ICON) | $(ICONS_DIR)
