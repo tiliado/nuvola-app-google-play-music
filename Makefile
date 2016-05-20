@@ -22,8 +22,10 @@
 
 # Service integration id
 APP_ID = google_play_music
+# Image converter to use (rsvg-convert or lasem-render)
+SVG_CONVERT ?= rsvg-convert
 # Dependencies
-DEPS = rsvg-convert
+DEPS = $(SVG_CONVERT)
 # Default installation destination
 DEST ?= $(HOME)/.local/share/nuvolaplayer3/web_apps
 # Sizes of the whole icon set
@@ -57,35 +59,35 @@ $(ICONS_DIR):
 	
 # Generate icon 16
 $(ICONS_DIR)/16.png: $(SOURCE_ICON_XS) | $(ICONS_DIR)
-	rsvg-convert -z 1 $< -o $@
+	$(SVG_CONVERT) -z 1 $< -o $@
 
 # Generate icon 22	
 $(ICONS_DIR)/22.png : $(SOURCE_ICON_XS) | $(ICONS_DIR)
-	rsvg-convert -z 1.375 $< -o $@
+	$(SVG_CONVERT) -z 1.375 $< -o $@
 
 # Generate icon 24	
 $(ICONS_DIR)/24.png : $(SOURCE_ICON_XS) | $(ICONS_DIR)
-	rsvg-convert -z 1.5 $< -o $@
+	$(SVG_CONVERT) -z 1.5 $< -o $@
 
 # Generate icon 32	
 $(ICONS_DIR)/32.png : $(SOURCE_ICON_SM) | $(ICONS_DIR)
-	rsvg-convert -z 1 $< -o $@
+	$(SVG_CONVERT) -z 1 $< -o $@
 
 # Generate icon 48
 $(ICONS_DIR)/48.png : $(SOURCE_ICON_SM) | $(ICONS_DIR)
-	rsvg-convert -z 1.5 $< -o $@
+	$(SVG_CONVERT) -z 1.5 $< -o $@
 
 # Generate icon 64
 $(ICONS_DIR)/64.png : $(SOURCE_ICON) | $(ICONS_DIR)
-	rsvg-convert -z 0.125 $< -o $@
+	$(SVG_CONVERT) -z 0.125 $< -o $@
 
 # Generate icon 128
 $(ICONS_DIR)/128.png : $(SOURCE_ICON) | $(ICONS_DIR)
-	rsvg-convert -z 0.25 $< -o $@
+	$(SVG_CONVERT) -z 0.25 $< -o $@
 
 # Generate icon 256
 $(ICONS_DIR)/256.png : $(SOURCE_ICON) | $(ICONS_DIR)
-	rsvg-convert -z 0.5 $< -o $@
+	$(SVG_CONVERT) -z 0.5 $< -o $@
 
 # Copy scalable icon
 $(SCALABLE_ICON) : $(SOURCE_ICON) | $(ICONS_DIR)
