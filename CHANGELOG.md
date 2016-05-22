@@ -1,8 +1,8 @@
 Changelog
 =========
 
-5.14 - unreleased
------------------
+5.14 - May 22nd, 2016
+---------------------
 
   * SVG images are optimized in build time.
   * Lasem, librsvg, GraphicsMagick and ImageMagick SVG converters are supported.
