@@ -1,6 +1,13 @@
 Changelog
 =========
 
+5.14 - unreleased
+-----------------
+
+  * SVG images are optimized in build time.
+  * Lasem, librsvg, GraphicsMagick and ImageMagick SVG converters are supported.
+  * Broken symlink to the scalable icons has been fixed.
+  
 5.13 - May 8th, 2016
 --------------------
 
