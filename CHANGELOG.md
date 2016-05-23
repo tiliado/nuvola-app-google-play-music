@@ -1,6 +1,11 @@
 Changelog
 =========
 
+5.15 - unreleased
+-----------------
+
+  * Added Contributing to Google Play Music script
+
 5.14 - May 22nd, 2016
 ---------------------
 
