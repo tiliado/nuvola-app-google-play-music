@@ -9,7 +9,7 @@ Support
 
 Report bugs and issues at <https://github.com/tiliado/nuvola-app-google-play/issues>.
 
-+Dependencies
+Dependencies
 ------------
 
   * GNU Make
