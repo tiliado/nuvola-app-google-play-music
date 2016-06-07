@@ -5,6 +5,8 @@ Changelog
 -----------------
 
   * Added Contributing to Google Play Music script
+  * Script now doesn't assume that it is always executed before a basic structure of a web page is loaded. This isn't
+    guaranteed and it leads to an incompatibility with Nuvola Player 3.0.3. Issue: tiliado/nuvolaplayer#239
 
 5.14 - May 22nd, 2016
 ---------------------

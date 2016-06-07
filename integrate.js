@@ -68,7 +68,11 @@ WebApp._onInitWebWorker = function(emitter)
     this.thumbsDown = undefined;
     this.state = State.UNKNOWN;
     player.addExtraActions(THUMBS_ACTIONS);
-    document.addEventListener("DOMContentLoaded", this._onPageReady.bind(this));
+    var state = document.readyState;
+    if (state === "interactive" || state === "complete")
+        this._onPageReady();
+    else
+        document.addEventListener("DOMContentLoaded", this._onPageReady.bind(this));
 }
 
 /**
