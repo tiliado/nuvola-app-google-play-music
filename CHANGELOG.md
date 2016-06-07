@@ -1,8 +1,8 @@
 Changelog
 =========
 
-5.15 - unreleased
------------------
+5.15 - June 7th, 2016
+---------------------
 
   * Added Contributing to Google Play Music script
   * Script now doesn't assume that it is always executed before a basic structure of a web page is loaded. This isn't
