@@ -26,7 +26,7 @@ APP_ID = google_play_music
 # Default installation destination
 DEST ?= $(HOME)/.local/share/nuvolaplayer3/web_apps
 # Files to be installed
-INSTALL_FILES = metadata.json integrate.js
+INSTALL_FILES = metadata.json integrate.js outdated-libraries.html
 LICENSES = LICENSE
 # Icon set
 SOURCE_ICON ?= icons/icon.svg

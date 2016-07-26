@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:its="http://www.w3.org/2005/11/its">
+  <head>
+    <meta charset="utf-8" />
+    <title>WebKitGTK and/or LibSoup Upgrade Recommended</title>
+    <style type="text/css" its:translate="no">
+        body {padding: 3em;}
+        #content {margin: 0 auto; max-width: 40em;}
+        p {text-align: justify;}
+        button {display: block; width: 100%; margin: 5px;}
+    </style>
+  </head>
+  <body>
+    <div id="content">
+      <h1>WebKitGTK and/or LibSoup Upgrade Recommended</h1>
+      <p>
+          Nuvola Player uses the WebKitGTK library as a web rendering engine to display the web
+          interface of streaming services and the LibSoup library for network requests.
+          Unfortunately, the WebKitGTK and/or the LibSoup libraries provided by your
+          system are too old.
+      </p>
+      <p>
+        <strong>Therefore, this streaming service may not work properly.</strong>
+      </p>
+      <ul>
+          <li>
+            Your WebKitGTK version:
+            <strong id="webkitgtk-found" its:locNote="Shown if WebKitGTK/libSoup version is unknown and will be replaced with real version otherwise">unknown</strong>
+          </li>
+          <li>Recommended WebKitGTK version: <strong id="webkitgtk-required">unknown</strong> or higher</li>
+      </ul>
+      <p>
+        <button id="known-issues">Show information about known issues of old libraries</button>
+        <button id="upgrade-webkitgtk">Upgrade the WebKitGTK library on your system</button>
+        <button id="dismiss-upgrade">Dismiss this warning and continue at your own risk</button>
+      </p>
+    </div>
+  </body>
+</html>

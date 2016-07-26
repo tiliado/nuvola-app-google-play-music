@@ -1,6 +1,11 @@
 Changelog
 =========
 
+5.16 - unreleased
+---------------------
+
+  * WebKitGTK 2.12.0 or higher is required for proper functionality and an upgrade request is shown with older versions.
+
 5.15 - June 7th, 2016
 ---------------------
 
