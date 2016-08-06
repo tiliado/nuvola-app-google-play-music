@@ -1,6 +1,7 @@
 /*
  * Copyright 2011-2015 Jiří Janoušek <janousek.jiri@gmail.com>
  * Copyright 2014 Martin Pöhlmann <martin.deimos@gmx.de>
+ * Copyright 2016 Brian Finley <brian@thefinleys.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met: 
@@ -96,8 +97,8 @@ WebApp._onPreferencesForm = function(emitter, values, entries)
 WebApp.appendPreferences = function(values, entries)
 {
     values[THUMB_NEVER_TOGGLES] = Nuvola.config.get(THUMB_NEVER_TOGGLES);
-    entries.push(["header", "Google Play Music"])
-    entries.push(["bool", THUMB_NEVER_TOGGLES, _("Ensure thumb up/down flag is not toggled off\nonce it has been toggled on")]);
+    entries.push(["header", "\nGoogle Play Music"])
+    entries.push(["bool", THUMB_NEVER_TOGGLES, _("Treat thumbs up or down selection as a one-way switch,\nnot a toggle.")]);
 }
 
 /**
