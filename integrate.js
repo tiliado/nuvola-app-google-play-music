@@ -34,6 +34,7 @@ var WEBKITGTK_UPGRADE_REQUEST = "app.webkitgtk_upgrade";
 var WEBKITGTK_UPGRADE_HELP_URL = "https://github.com/tiliado/nuvolaplayer/wiki/WebKitGTK-Upgrade";
 var KNOWN_ISSUES_URL = "https://github.com/tiliado/nuvola-app-google-play-music/wiki/Known-Issues";
 
+var _ = Nuvola.Translate.gettext;
 var C_ = Nuvola.Translate.pgettext;
 var ngettext = Nuvola.Translate.ngettext;
 
@@ -41,6 +42,7 @@ var State = Nuvola.PlaybackState;
 var PlayerAction = Nuvola.PlayerAction;
 var player = Nuvola.$object(Nuvola.MediaPlayer);
 
+var THUMB_NEVER_TOGGLES = "app.thumb_never_toggles";
 var ACTION_THUMBS_UP = "thumbs-up";
 var ACTION_THUMBS_DOWN = "thumbs-down";
 var THUMBS_ACTIONS = [ACTION_THUMBS_UP, ACTION_THUMBS_DOWN];
@@ -64,6 +66,8 @@ WebApp._onInitAppRunner = function(emitter)
 {
     Nuvola.WebApp._onInitAppRunner.call(this, emitter);
     Nuvola.config.setDefault(WEBKITGTK_UPGRADE_REQUEST, null);
+    Nuvola.config.setDefault(THUMB_NEVER_TOGGLES, false);
+    Nuvola.core.connect("PreferencesForm", this);
     Nuvola.actions.addAction("playback", "win", ACTION_THUMBS_UP, C_("Action", "Thumbs up"), null, null, null, true);
     Nuvola.actions.addAction("playback", "win", ACTION_THUMBS_DOWN,C_("Action", "Thumbs down"), null, null, null, true);
 }
@@ -82,6 +86,18 @@ WebApp._onInitWebWorker = function(emitter)
         this._onPageReady();
     else
         document.addEventListener("DOMContentLoaded", this._onPageReady.bind(this));
+}
+
+WebApp._onPreferencesForm = function(emitter, values, entries)
+{
+    this.appendPreferences(values, entries);
+}
+
+WebApp.appendPreferences = function(values, entries)
+{
+    values[THUMB_NEVER_TOGGLES] = Nuvola.config.get(THUMB_NEVER_TOGGLES);
+    entries.push(["header", "Google Play Music"])
+    entries.push(["bool", THUMB_NEVER_TOGGLES, _("Ensure thumb up/down flag is not toggled off\nonce it has been toggled on")]);
 }
 
 /**
@@ -234,8 +250,9 @@ WebApp.update = function()
     var actionsStates = {};
     actionsStates[ACTION_THUMBS_UP] = this._isThumbSelected(thumbsUp);
     actionsStates[ACTION_THUMBS_DOWN] = this._isThumbSelected(thumbsDown);
-    actionsEnabled[ACTION_THUMBS_UP] = !!thumbsUp;
-    actionsEnabled[ACTION_THUMBS_DOWN] = !!thumbsDown;
+    var thumbNeverToggles = Nuvola.config.get(THUMB_NEVER_TOGGLES);
+    actionsEnabled[ACTION_THUMBS_UP] = !!thumbsUp && !(thumbNeverToggles && this._isThumbSelected(thumbsUp));
+    actionsEnabled[ACTION_THUMBS_DOWN] = !!thumbsDown && !(thumbNeverToggles && this._isThumbSelected(thumbsDown));
     
     // Compare with previous values and update if necessary
     Nuvola.actions.updateEnabledFlags(actionsEnabled);

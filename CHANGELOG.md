@@ -1,6 +1,11 @@
 Changelog
 =========
 
+5.17 - unreleased
+-----------------
+
+  * Added option to ensure the thumb up/down flag is not toggled off once it has been toggled on.
+  
 5.16 - July 26th, 2016 
 ----------------------
 
