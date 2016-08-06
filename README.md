@@ -31,4 +31,5 @@ Copyright
   - Copyright 2014 Martin Pöhlmann <martin.deimos@gmx.de>
   - Copyright 2012-2015 Alexander King
   - Copyright 2016 Patrick Burroughs (Celti) <celti@celti.name>
+  - Copyright 2016 Brian Finley <brian@thefinleys.com>
   - License: [2-Clause BSD-license](./LICENSE)
