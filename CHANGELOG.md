@@ -1,6 +1,11 @@
 Changelog
 =========
 
+5.18 - unreleased
+-----------------------
+
+  * Improve wording for thumbs-up/down preferences for ease of understanding.
+  
 5.17 - August 6th, 2016
 -----------------------
 
