@@ -5,6 +5,7 @@ Changelog
 -----------------------
 
   * Improve wording for thumbs-up/down preferences for ease of understanding.
+  * Ported to use Nuvola SDK.
   
 5.17 - August 6th, 2016
 -----------------------
