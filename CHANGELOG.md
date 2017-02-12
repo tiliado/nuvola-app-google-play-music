@@ -1,8 +1,8 @@
 Changelog
 =========
 
-5.18 - unreleased
------------------------
+5.18 - February 12th, 2017
+--------------------------
 
   * Improve wording for thumbs-up/down preferences for ease of understanding.
   * Ported to use Nuvola SDK.
