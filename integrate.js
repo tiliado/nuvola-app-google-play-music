@@ -144,6 +144,8 @@ WebApp._onPageReady = function()
     if ((Nuvola.API_VERSION || 300) >= 301) // API 3.1
         player.connect("RatingSet", this);
 
+    this.thumbNeverToggles = Nuvola.config.get(THUMB_NEVER_TOGGLES);
+    Nuvola.config.connect("ConfigChanged", this);
     this.update();
 }
 
@@ -251,9 +253,8 @@ WebApp.update = function()
     var actionsStates = {};
     actionsStates[ACTION_THUMBS_UP] = this._isThumbSelected(thumbsUp);
     actionsStates[ACTION_THUMBS_DOWN] = this._isThumbSelected(thumbsDown);
-    var thumbNeverToggles = Nuvola.config.get(THUMB_NEVER_TOGGLES);
-    actionsEnabled[ACTION_THUMBS_UP] = !!thumbsUp && !(thumbNeverToggles && this._isThumbSelected(thumbsUp));
-    actionsEnabled[ACTION_THUMBS_DOWN] = !!thumbsDown && !(thumbNeverToggles && this._isThumbSelected(thumbsDown));
+    actionsEnabled[ACTION_THUMBS_UP] = !!thumbsUp && !(this.thumbNeverToggles && this._isThumbSelected(thumbsUp));
+    actionsEnabled[ACTION_THUMBS_DOWN] = !!thumbsDown && !(this.thumbNeverToggles && this._isThumbSelected(thumbsDown));
     
     // Compare with previous values and update if necessary
     Nuvola.actions.updateEnabledFlags(actionsEnabled);
@@ -381,6 +382,12 @@ WebApp._onRatingSet = function(emitter, rating)
         window.alert("Invalid rating: " + rating + "." 
         + "Have you clicked the three-star button? It isn't supported.");
     }
+}
+
+WebApp._onConfigChanged = function(emitter, key)
+{
+    if (key == THUMB_NEVER_TOGGLES)
+        this.thumbNeverToggles = Nuvola.config.get(THUMB_NEVER_TOGGLES);
 }
 
 WebApp._luckyMix = function()
