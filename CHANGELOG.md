@@ -1,6 +1,12 @@
 Changelog
 =========
 
++1
+--
+
+  * Malfunctioning Google sign-in page has been fixed by setting the user agent string to WebKit.
+    Issue: tiliado/nuvolaplayer#336
+
 5.18 - February 12th, 2017
 --------------------------
 
