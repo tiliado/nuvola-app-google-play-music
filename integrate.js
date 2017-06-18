@@ -237,6 +237,9 @@ WebApp.update = function()
         track.album = null;
     }
     
+    elm = document.getElementById("time_container_duration");
+    track.length = elm ? elm.innerText || null : null;
+    
     var thumbsUp = this._getThumbsUpButton();
     var thumbsDown = this._getThumbsDownButton();
     if (this._isThumbSelected(thumbsUp))
@@ -259,6 +262,13 @@ WebApp.update = function()
     // Compare with previous values and update if necessary
     Nuvola.actions.updateEnabledFlags(actionsEnabled);
     Nuvola.actions.updateStates(actionsStates);
+    
+    if (Nuvola.checkVersion && Nuvola.checkVersion(4, 4, 21))  // @API 4.5
+    {
+        elm = document.getElementById("time_container_current");
+        player.setTrackPosition(elm ? elm.innerText || null : null);
+        player.setCanSeek(this.state !== State.UNKNOWN);
+    }
     
     this.scheduleUpdate();
 }
@@ -342,6 +352,12 @@ WebApp._onActionActivated = function(emitter, name, param)
     case PlayerAction.NEXT_SONG:
         if (nextSong)
             nextSong.click();
+        break;
+    case PlayerAction.SEEK:  // @API 4.5: undefined & ignored in Nuvola < 4.5
+        var elm = document.getElementById("time_container_duration");
+        var total = Nuvola.parseTimeUsec(elm ? elm.innerText : null);
+        if (param > 0 && param <= total)
+            Nuvola.clickOnElement(document.getElementById("progressContainer"), param/total, 0.5);
         break;
     
     /* Custom actions */

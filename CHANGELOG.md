@@ -8,6 +8,8 @@ Changelog
     Issue: tiliado/nuvolaplayer#336
   * Don't check setting THUMB_NEVER_TOGGLES too often.
   * Metadata was updated according to the latest Nuvola SDK requirements.
+  * Progress bar is fully integrated - it is possible to show track position and change it as well.
+    Issue: tiliado/nuvolaruntime#155
 
 5.18 - February 12th, 2017
 --------------------------
