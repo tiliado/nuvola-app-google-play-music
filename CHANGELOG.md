@@ -10,6 +10,8 @@ Changelog
   * Metadata was updated according to the latest Nuvola SDK requirements.
   * Progress bar is fully integrated - it is possible to show track position and change it as well.
     Issue: tiliado/nuvolaruntime#155
+  * Volume management is fully integrated - it is possible to show volume and change it as well.
+    Issue: tiliado/nuvolaruntime#22
 
 5.18 - February 12th, 2017
 --------------------------

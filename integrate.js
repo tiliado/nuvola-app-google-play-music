@@ -268,6 +268,9 @@ WebApp.update = function()
         elm = document.getElementById("time_container_current");
         player.setTrackPosition(elm ? elm.innerText || null : null);
         player.setCanSeek(this.state !== State.UNKNOWN);
+        var elm = document.querySelector("#volume #sliderBar");
+        player.updateVolume(elm ? elm.getAttribute("value") / 100 : null);
+        player.setCanChangeVolume(!!elm);
     }
     
     this.scheduleUpdate();
@@ -358,6 +361,11 @@ WebApp._onActionActivated = function(emitter, name, param)
         var total = Nuvola.parseTimeUsec(elm ? elm.innerText : null);
         if (param > 0 && param <= total)
             Nuvola.clickOnElement(document.getElementById("progressContainer"), param/total, 0.5);
+        break;
+    case PlayerAction.CHANGE_VOLUME:  // @API 4.5: undefined & ignored in Nuvola < 4.5
+        var elm = document.querySelector("#volume #sliderBar");
+        if (elm)
+            Nuvola.clickOnElement(elm, param);
         break;
     
     /* Custom actions */
