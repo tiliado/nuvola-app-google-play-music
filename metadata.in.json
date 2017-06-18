@@ -8,10 +8,11 @@
     "api_major": 3, 
     "api_minor": 0, 
     "categories": "AudioVideo;Audio;", 
-    "license": "2-Clause BSD-license", 
+    "license": "BSD-2-Clause", 
     "home_url": "https://play.google.com/music/", 
     "allowed_uri": "^https?://(ssl\\.gstatic\\.com/|play\\.google\\.com/((?!store).*)$|accounts\\.google(\\.\\w+)+/|(www\\.)?google(\\.\\w+)+/accounts|accounts\\.youtube\\.com/accounts|.*\\.googleusercontent\\.com)", 
-    "webkitgtk": 21200, 
+    "requirements": "Feature[flash] Codec[mp3] WebKitGTK[2.16.3]", 
+    "webkitgtk": 21603, 
     "user_agent": "WEBKIT",
     "build": {
         "icons": [

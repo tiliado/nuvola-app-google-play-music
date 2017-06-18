@@ -7,6 +7,7 @@ Changelog
   * Malfunctioning Google sign-in page has been fixed by setting the user agent string to WebKit.
     Issue: tiliado/nuvolaplayer#336
   * Don't check setting THUMB_NEVER_TOGGLES too often.
+  * Metadata was updated according to the latest Nuvola SDK requirements.
 
 5.18 - February 12th, 2017
 --------------------------
