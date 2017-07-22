@@ -30,11 +30,6 @@
 Nuvola.VERSION = Nuvola.VERSION || (
     Nuvola.VERSION_MAJOR * 10000 + Nuvola.VERSION_MINOR * 100 + Nuvola.VERSION_BUGFIX);
 
-// For request to upgrade libraries
-var WEBKITGTK_UPGRADE_REQUEST = "app.webkitgtk_upgrade";
-var WEBKITGTK_UPGRADE_HELP_URL = "https://github.com/tiliado/nuvolaplayer/wiki/WebKitGTK-Upgrade";
-var KNOWN_ISSUES_URL = "https://github.com/tiliado/nuvola-app-google-play-music/wiki/Known-Issues";
-
 var _ = Nuvola.Translate.gettext;
 var C_ = Nuvola.Translate.pgettext;
 var ngettext = Nuvola.Translate.ngettext;
@@ -66,7 +61,6 @@ var WebApp = Nuvola.$WebApp();
 WebApp._onInitAppRunner = function(emitter)
 {
     Nuvola.WebApp._onInitAppRunner.call(this, emitter);
-    Nuvola.config.setDefault(WEBKITGTK_UPGRADE_REQUEST, null);
     Nuvola.config.setDefault(THUMB_NEVER_TOGGLES, false);
     Nuvola.core.connect("PreferencesForm", this);
     Nuvola.actions.addAction("playback", "win", ACTION_THUMBS_UP, C_("Action", "Thumbs up"), null, null, null, true);
@@ -116,20 +110,11 @@ WebApp._onUriChanged = function(emitter, uri)
     Nuvola.WebApp._onUriChanged.call(this, emitter, uri);
 }
 
-WebApp._onHomePageRequest = function(emitter, result)
-{
-    if (!this._showUpgradeRequest(result))
-        Nuvola.WebApp._onHomePageRequest.call(this, emitter, result);
-}
-
 WebApp._onLastPageRequest = function(emitter, result)
 {
-    if (!this._showUpgradeRequest(result))
-    {
-        Nuvola.WebApp._onLastPageRequest.call(this, emitter, result);
-        if (result.url && result.url.indexOf("file://") === 0)
-            result.url = null;
-    }
+    Nuvola.WebApp._onLastPageRequest.call(this, emitter, result);
+    if (result.url && result.url.indexOf("file://") === 0)
+        result.url = null;
 }
 
 WebApp._onPageReady = function()
@@ -419,27 +404,6 @@ WebApp._luckyMix = function()
     return location.hash === "#/now" ? document.querySelector("div[data-type=imfl]") || false : false;
 }
 
-WebApp._showUpgradeRequest = function(result)
-{
-    // FUTURE: Remove Nuvola version check after NP 3.2.0
-    if (Nuvola.VERSION >= 30003 && Nuvola.WEBKITGTK_VERSION < this.meta.webkitgtk)
-    {
-        if (Nuvola.config.get(WEBKITGTK_UPGRADE_REQUEST) === Nuvola.WEBKITGTK_VERSION + ":" + this.meta.webkitgtk)
-        {
-            Nuvola.log(
-                "Library upgrade request dismissed with WebKitGTK {1} ({2} required).",
-                this._formatVersion(Nuvola.WEBKITGTK_VERSION),
-                this._formatVersion(this.meta.webkitgtk));
-            return false;
-        }
-        
-        if (result)
-            result.url = "nuvola://outdated-libraries.html";
-        return true;
-    }
-    return false;
-}
-
 WebApp._formatVersion = function(version)
 {
     var micro = version % 100;
@@ -447,41 +411,6 @@ WebApp._formatVersion = function(version)
     var minor = version % 100;
     var major = (version - minor) / 100;
     return major + "." + minor + "." + micro;
-}
-
-WebApp._handleUpgradeRequest = function()
-{
-    if (!this._showUpgradeRequest())
-    {
-        Nuvola.actions.activate(Nuvola.BrowserAction.GO_HOME);
-        return;
-    }
-    
-    document.getElementById("webkitgtk-found").innerText = this._formatVersion(Nuvola.WEBKITGTK_VERSION);
-    document.getElementById("webkitgtk-required").innerText = this._formatVersion(this.meta.webkitgtk);
-    document.getElementById("known-issues").onclick = this._showKnownIssues.bind(this);
-    document.getElementById("dismiss-upgrade").onclick = this._dismissUpgradeRequest.bind(this);
-    var button = document.getElementById("upgrade-webkitgtk");
-    if (Nuvola.WEBKITGTK_VERSION < this.meta.webkitgtk)
-        button.onclick = this._showWebkitgtkUpgradeInfo.bind(this);
-    else
-        button.style.display = "none";
-}
-
-WebApp._dismissUpgradeRequest = function()
-{
-    Nuvola.config.set(WEBKITGTK_UPGRADE_REQUEST, Nuvola.WEBKITGTK_VERSION + ":" + this.meta.webkitgtk);
-    Nuvola.actions.activate(Nuvola.BrowserAction.GO_HOME);
-}
-
-WebApp._showWebkitgtkUpgradeInfo = function()
-{
-    window.open(WEBKITGTK_UPGRADE_HELP_URL, "WebkitgtkUpgrade", "width=900,height=600");
-}
-
-WebApp._showKnownIssues = function()
-{
-    window.open(KNOWN_ISSUES_URL, "KnownIssues", "width=900,height=600");
 }
 
 WebApp.start();
