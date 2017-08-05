@@ -1,6 +1,8 @@
 Changelog
 =========
 
+  * Media Source Extension is used for audio playback instead of Flash plugin.
+
 6.0 - September 28th, 2017
 -----------------------
 
