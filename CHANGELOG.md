@@ -5,6 +5,7 @@ Changelog
 --
 
   * The check of WebKitGTK+ version was removed as Nuvola 3.0.9 depends on new enough version (2.16.3).
+  * Async JavaScripr API is used to improve responsiveness and reduce lags, but Nuvola 4.8+ is required.
 
 5.19 - June 18th, 2017
 ----------------------

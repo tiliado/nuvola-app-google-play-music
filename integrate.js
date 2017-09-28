@@ -61,7 +61,7 @@ var WebApp = Nuvola.$WebApp();
 WebApp._onInitAppRunner = function(emitter)
 {
     Nuvola.WebApp._onInitAppRunner.call(this, emitter);
-    Nuvola.config.setDefault(THUMB_NEVER_TOGGLES, false);
+    Nuvola.config.setDefaultAsync(THUMB_NEVER_TOGGLES, false).catch(console.log.bind(console));
     Nuvola.core.connect("PreferencesForm", this);
     Nuvola.actions.addAction("playback", "win", ACTION_THUMBS_UP, C_("Action", "Thumbs up"), null, null, null, true);
     Nuvola.actions.addAction("playback", "win", ACTION_THUMBS_DOWN,C_("Action", "Thumbs down"), null, null, null, true);
@@ -129,9 +129,11 @@ WebApp._onPageReady = function()
     if ((Nuvola.API_VERSION || 300) >= 301) // API 3.1
         player.connect("RatingSet", this);
 
-    this.thumbNeverToggles = Nuvola.config.get(THUMB_NEVER_TOGGLES);
     Nuvola.config.connect("ConfigChanged", this);
-    this.update();
+    Nuvola.config.getAsync(THUMB_NEVER_TOGGLES).then((thumbNeverToggles) => {
+        this.thumbNeverToggles = thumbNeverToggles;
+        this.update();
+    }).catch(console.log.bind(console));
 }
 
 WebApp.update = function()
@@ -393,10 +395,12 @@ WebApp._onRatingSet = function(emitter, rating)
     }
 }
 
-WebApp._onConfigChanged = function(emitter, key)
-{
-    if (key == THUMB_NEVER_TOGGLES)
-        this.thumbNeverToggles = Nuvola.config.get(THUMB_NEVER_TOGGLES);
+WebApp._onConfigChanged = function(emitter, key) {
+    if (key == THUMB_NEVER_TOGGLES) {
+        Nuvola.config.getAsync(THUMB_NEVER_TOGGLES).then((thumbNeverToggles) => {
+            this.thumbNeverToggles = thumbNeverToggles;
+        }).catch(console.log.bind(console));
+    }
 }
 
 WebApp._luckyMix = function()
