@@ -1,8 +1,8 @@
-Google Play Nuvola Player App
+Google Play Music (a Nuvola app)
 =============================
 
 Integration of Google Play Music into your linux desktop via
-[Nuvola Player](https://github.com/tiliado/nuvolaplayer).
+[Nuvola Apps Runtime](https://github.com/tiliado/nuvolaruntime).
  
 Support
 -------
@@ -19,7 +19,7 @@ page in order to obtain information about dependencies and installation instruct
 Copyright
 ---------
 
-  - Copyright 2011-2016 Jiří Janoušek <janousek.jiri@gmail.com>
+  - Copyright 2011-2017 Jiří Janoušek <janousek.jiri@gmail.com>
   - Copyright 2014 Martin Pöhlmann <martin.deimos@gmx.de>
   - Copyright 2012-2015 Alexander King
   - Copyright 2016 Brian Finley <brian@thefinleys.com>
