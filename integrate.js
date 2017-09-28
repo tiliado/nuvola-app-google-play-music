@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2015 Jiří Janoušek <janousek.jiri@gmail.com>
+ * Copyright 2011-2017 Jiří Janoušek <janousek.jiri@gmail.com>
  * Copyright 2014 Martin Pöhlmann <martin.deimos@gmx.de>
  * Copyright 2016 Brian Finley <brian@thefinleys.com>
  *
@@ -24,11 +24,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-(function(Nuvola)
-{
-// FUTURE: Remove after NP 3.2.0
-Nuvola.VERSION = Nuvola.VERSION || (
-    Nuvola.VERSION_MAJOR * 10000 + Nuvola.VERSION_MINOR * 100 + Nuvola.VERSION_BUGFIX);
+(function(Nuvola) {
 
 var _ = Nuvola.Translate.gettext;
 var C_ = Nuvola.Translate.pgettext;
@@ -43,25 +39,12 @@ var ACTION_THUMBS_UP = "thumbs-up";
 var ACTION_THUMBS_DOWN = "thumbs-down";
 var THUMBS_ACTIONS = [ACTION_THUMBS_UP, ACTION_THUMBS_DOWN];
 
-if (!String.prototype.endsWith)
-{
-    String.prototype.endsWith = function(searchString, position)
-    {
-        var subjectString = this.toString();
-        if (position === undefined || position > subjectString.length)
-            position = subjectString.length;
-        position -= searchString.length;
-        var lastIndex = subjectString.indexOf(searchString, position);
-        return lastIndex !== -1 && lastIndex === position;
-    };
-}
-
 var WebApp = Nuvola.$WebApp();
 
 WebApp._onInitAppRunner = function(emitter)
 {
     Nuvola.WebApp._onInitAppRunner.call(this, emitter);
-    Nuvola.config.setDefaultAsync(THUMB_NEVER_TOGGLES, false).catch(console.log.bind(console));
+    Nuvola.config.setDefaultAsync(THUMB_NEVER_TOGGLES, false).catch(Nuvola.logException);
     Nuvola.core.connect("PreferencesForm", this);
     Nuvola.actions.addAction("playback", "win", ACTION_THUMBS_UP, C_("Action", "Thumbs up"), null, null, null, true);
     Nuvola.actions.addAction("playback", "win", ACTION_THUMBS_DOWN,C_("Action", "Thumbs down"), null, null, null, true);
@@ -119,21 +102,15 @@ WebApp._onLastPageRequest = function(emitter, result)
 
 WebApp._onPageReady = function()
 {
-    if (location.protocol === "file:")
-    {
-        this._handleUpgradeRequest();
+    if (location.protocol === "file:") {
         return;
     }
-    
-    // Connect rating handler if supported
-    if ((Nuvola.API_VERSION || 300) >= 301) // API 3.1
-        player.connect("RatingSet", this);
-
+    player.connect("RatingSet", this);
     Nuvola.config.connect("ConfigChanged", this);
     Nuvola.config.getAsync(THUMB_NEVER_TOGGLES).then((thumbNeverToggles) => {
         this.thumbNeverToggles = thumbNeverToggles;
         this.update();
-    }).catch(console.log.bind(console));
+    }).catch(Nuvola.logException);
 }
 
 WebApp.update = function()
@@ -180,9 +157,7 @@ WebApp.update = function()
     player.setCanPlay(this.state === State.PAUSED || this.state === State.UNKNOWN && this._luckyMix());
     player.setCanGoPrev(prevSong);
     player.setCanGoNext(nextSong);
-    
-    if ((Nuvola.API_VERSION || 300) >= 301) // API 3.1
-        player.setCanRate(this.state !== State.UNKNOWN);
+    player.setCanRate(this.state !== State.UNKNOWN);
     
     var track = {};
     try
@@ -235,7 +210,6 @@ WebApp.update = function()
         track.rating = 0.20;
     else
         track.rating = 0.0;
-    
     player.setTrack(track);
     
     // Extract enabled flag and state from a web page
@@ -250,16 +224,12 @@ WebApp.update = function()
     Nuvola.actions.updateEnabledFlags(actionsEnabled);
     Nuvola.actions.updateStates(actionsStates);
     
-    if (Nuvola.checkVersion && Nuvola.checkVersion(4, 4, 21))  // @API 4.5
-    {
-        elm = document.getElementById("time_container_current");
-        player.setTrackPosition(elm ? elm.innerText || null : null);
-        player.setCanSeek(this.state !== State.UNKNOWN);
-        var elm = document.querySelector("#volume #sliderBar");
-        player.updateVolume(elm ? elm.getAttribute("value") / 100 : null);
-        player.setCanChangeVolume(!!elm);
-    }
-    
+    elm = document.getElementById("time_container_current");
+    player.setTrackPosition(elm ? elm.innerText || null : null);
+    player.setCanSeek(this.state !== State.UNKNOWN);
+    elm = document.querySelector("#volume #sliderBar");
+    player.updateVolume(elm ? elm.getAttribute("value") / 100 : null);
+    player.setCanChangeVolume(!!elm);
     this.scheduleUpdate();
 }
 
@@ -343,18 +313,17 @@ WebApp._onActionActivated = function(emitter, name, param)
         if (nextSong)
             nextSong.click();
         break;
-    case PlayerAction.SEEK:  // @API 4.5: undefined & ignored in Nuvola < 4.5
+    case PlayerAction.SEEK:
         var elm = document.getElementById("time_container_duration");
         var total = Nuvola.parseTimeUsec(elm ? elm.innerText : null);
         if (param > 0 && param <= total)
             Nuvola.clickOnElement(document.getElementById("progressContainer"), param/total, 0.5);
         break;
-    case PlayerAction.CHANGE_VOLUME:  // @API 4.5: undefined & ignored in Nuvola < 4.5
+    case PlayerAction.CHANGE_VOLUME:
         var elm = document.querySelector("#volume #sliderBar");
         if (elm)
             Nuvola.clickOnElement(elm, param);
         break;
-    
     /* Custom actions */
     case ACTION_THUMBS_UP:
         this._getThumbsUpButton().click();
@@ -399,22 +368,13 @@ WebApp._onConfigChanged = function(emitter, key) {
     if (key == THUMB_NEVER_TOGGLES) {
         Nuvola.config.getAsync(THUMB_NEVER_TOGGLES).then((thumbNeverToggles) => {
             this.thumbNeverToggles = thumbNeverToggles;
-        }).catch(console.log.bind(console));
+        }).catch(Nuvola.logException);
     }
 }
 
 WebApp._luckyMix = function()
 {
     return location.hash === "#/now" ? document.querySelector("div[data-type=imfl]") || false : false;
-}
-
-WebApp._formatVersion = function(version)
-{
-    var micro = version % 100;
-    version = (version - micro) / 100;
-    var minor = version % 100;
-    var major = (version - minor) / 100;
-    return major + "." + minor + "." + micro;
 }
 
 WebApp.start();
