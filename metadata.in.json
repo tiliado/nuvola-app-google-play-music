@@ -1,23 +1,23 @@
 {
-    "id": "google_play_music", 
-    "name": "Google Play Music", 
-    "maintainer_name": "Jiří Janoušek", 
-    "maintainer_link": "https://github.com/fenryxo", 
-    "version_major": 6, 
-    "version_minor": 0, 
-    "api_major": 4, 
-    "api_minor": 8, 
-    "categories": "AudioVideo;Audio;", 
-    "license": "BSD-2-Clause", 
-    "home_url": "https://play.google.com/music/", 
-    "allowed_uri": "^https?://(ssl\\.gstatic\\.com/|play\\.google\\.com/((?!store).*)$|accounts\\.google(\\.\\w+)+/|(www\\.)?google(\\.\\w+)+/accounts|accounts\\.youtube\\.com/accounts|.*\\.googleusercontent\\.com)", 
-    "requirements": "Feature[MSE] Codec[mp3] Chromium[63]", 
-    "user_agent": "WEBKIT",
-    "build": {
-        "icons": [
-            "src/icon.svg SCALABLE 64 128 256", 
-            "src/icon-xs.svg 16 22 24", 
-            "src/icon-sm.svg 32 48"
-        ]
-    }
+  "id": "google_play_music",
+  "name": "Google Play Music",
+  "maintainer_name": "Jiří Janoušek",
+  "maintainer_link": "https://github.com/fenryxo",
+  "version_major": 6,
+  "version_minor": 0,
+  "api_major": 4,
+  "api_minor": 8,
+  "categories": "AudioVideo;Audio;",
+  "license": "BSD-2-Clause",
+  "home_url": "https://play.google.com/music/",
+  "allowed_uri": "^https?://(ssl\\.gstatic\\.com/|play\\.google\\.com/((?!store).*)$|accounts\\.google(\\.\\w+)+/|(www\\.)?google(\\.\\w+)+/accounts|accounts\\.youtube\\.com/accounts|.*\\.googleusercontent\\.com)",
+  "requirements": "Feature[MSE] Codec[mp3] Chromium[63]",
+  "user_agent": "WEBKIT",
+  "build": {
+    "icons": [
+      "src/icon.svg SCALABLE 64 128 256",
+      "src/icon-xs.svg 16 22 24",
+      "src/icon-sm.svg 32 48"
+    ]
+  }
 }
