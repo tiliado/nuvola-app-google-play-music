@@ -3,3 +3,9 @@ Makefile
 metadata.json
 eu.tiliado.NuvolaAppGooglePlayMusic.desktop
 nuvola-app-google-play-music
+eu.tiliado.NuvolaAppGooglePlayMusic.appdata.xml
+eu.tiliado.NuvolaAppGooglePlayMusic.service
+eu.tiliado.WebRuntimeAppGooglePlayMusic.appdata.xml
+eu.tiliado.WebRuntimeAppGooglePlayMusic.desktop
+eu.tiliado.WebRuntimeAppGooglePlayMusic.service
+nuvola-app-google-play-music.metainfo.xml

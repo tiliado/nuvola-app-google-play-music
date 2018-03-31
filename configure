@@ -1,3 +1,3 @@
 #!/usr/bin/env python3
 import nuvolasdk
-nuvolasdk.gen_makefile()
+nuvolasdk.gen_makefile("4.10.0")
