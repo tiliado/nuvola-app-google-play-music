@@ -21,6 +21,16 @@ This project uses [Nuvola SDK](https://github.com/tiliado/nuvolasdk#create-new-p
 the [Build a Project Using Nuvola SDK](https://github.com/tiliado/nuvolasdk#build-a-project-using-nuvola-sdk)
 page in order to obtain information about dependencies and installation instructions.
 
+Change log
+----------
+
+See [CHANGELOG.md](./CHANGELOG.md).
+
+Contributing
+------------
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md).
+
 Copyright
 ---------
 
