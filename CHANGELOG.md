@@ -1,6 +1,9 @@
 Changelog
 =========
 
+6.1 - June 1st, 2018
+--------------------
+
   * Media Source Extension and Chromium backend are used for audio playback instead of Flash plugin.
 
 6.0 - September 28th, 2017
@@ -26,13 +29,13 @@ Changelog
 
   * Improve wording for thumbs-up/down preferences for ease of understanding.
   * Ported to use Nuvola SDK.
-  
+
 5.17 - August 6th, 2016
 -----------------------
 
   * Added option to ensure the thumb up/down flag is not toggled off once it has been toggled on.
-  
-5.16 - July 26th, 2016 
+
+5.16 - July 26th, 2016
 ----------------------
 
   * WebKitGTK 2.12.0 or higher is required for proper functionality and an upgrade request is shown with older versions.
@@ -50,7 +53,7 @@ Changelog
   * SVG images are optimized in build time.
   * Lasem, librsvg, GraphicsMagick and ImageMagick SVG converters are supported.
   * Broken symlink to the scalable icons has been fixed.
-  
+
 5.13 - May 8th, 2016
 --------------------
 
