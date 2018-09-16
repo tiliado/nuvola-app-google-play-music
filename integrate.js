@@ -184,11 +184,15 @@
     }
     player.setTrack(track)
 
+    var shuffle = this._getShuffleButton()
+
     // Extract enabled flag and state from a web page
     var actionsEnabled = {}
     var actionsStates = {}
     actionsStates[ACTION_THUMBS_UP] = this._isThumbSelected(thumbsUp)
     actionsStates[ACTION_THUMBS_DOWN] = this._isThumbSelected(thumbsDown)
+    actionsStates[PlayerAction.SHUFFLE] = shuffle && shuffle.classList.contains('active')
+    actionsEnabled[PlayerAction.SHUFFLE] = !!shuffle
     actionsEnabled[ACTION_THUMBS_UP] = !!thumbsUp && !(this.thumbNeverToggles && this._isThumbSelected(thumbsUp))
     actionsEnabled[ACTION_THUMBS_DOWN] = !!thumbsDown && !(this.thumbNeverToggles && this._isThumbSelected(thumbsDown))
 
@@ -291,6 +295,9 @@
         if (elm) {
           Nuvola.clickOnElement(elm, param)
         }
+        break
+      case PlayerAction.SHUFFLE:
+        Nuvola.clickOnElement(this._getShuffleButton())
         break
       /* Custom actions */
       case ACTION_THUMBS_UP:
