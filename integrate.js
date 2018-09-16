@@ -185,6 +185,7 @@
     player.setTrack(track)
 
     var shuffle = this._getShuffleButton()
+    var repeat = this._getRepeatStatus(this._getRepeatButton())
 
     // Extract enabled flag and state from a web page
     var actionsEnabled = {}
@@ -192,7 +193,9 @@
     actionsStates[ACTION_THUMBS_UP] = this._isThumbSelected(thumbsUp)
     actionsStates[ACTION_THUMBS_DOWN] = this._isThumbSelected(thumbsDown)
     actionsStates[PlayerAction.SHUFFLE] = shuffle && shuffle.classList.contains('active')
+    actionsStates[PlayerAction.REPEAT] = repeat || 0
     actionsEnabled[PlayerAction.SHUFFLE] = !!shuffle
+    actionsEnabled[PlayerAction.REPEAT] = repeat !== null
     actionsEnabled[ACTION_THUMBS_UP] = !!thumbsUp && !(this.thumbNeverToggles && this._isThumbSelected(thumbsUp))
     actionsEnabled[ACTION_THUMBS_DOWN] = !!thumbsDown && !(this.thumbNeverToggles && this._isThumbSelected(thumbsDown))
 
@@ -233,6 +236,10 @@
     return this._getButton('shuffle')
   }
 
+  WebApp._getRepeatButton = function () {
+    return this._getButton('repeat')
+  }
+
   WebApp._getThumbsUpButton = function () {
     return document.querySelector(".player-rating-container [data-rating='5']")
   }
@@ -243,6 +250,29 @@
 
   WebApp._isThumbSelected = function (elm) {
     return (elm && elm.icon) ? elm.icon.indexOf('-outline') === -1 : false
+  }
+
+  WebApp._getRepeatStatus = function (button) {
+    if (!button) {
+      return null
+    }
+    var classes = button.classList
+    if (!classes.contains('active')) {
+      return Nuvola.PlayerRepeat.NONE
+    }
+    var icon = button.firstElementChild.firstElementChild.firstElementChild.firstElementChild.getAttribute('d')
+    return (icon === 'M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4zm-4-2V9h-1l-2 1v1h1.5v4H13z'
+      ? Nuvola.PlayerRepeat.TRACK : Nuvola.PlayerRepeat.PLAYLIST)
+  }
+
+  WebApp._setRepeatStatus = function (button, repeat) {
+    if (!button) {
+      console.log('Do not have repeat button!')
+      return
+    }
+    while (this._getRepeatStatus(button) !== repeat) {
+      Nuvola.clickOnElement(button)
+    }
   }
 
   WebApp._onActionActivated = function (emitter, name, param) {
@@ -298,6 +328,9 @@
         break
       case PlayerAction.SHUFFLE:
         Nuvola.clickOnElement(this._getShuffleButton())
+        break
+      case PlayerAction.REPEAT:
+        this._setRepeatStatus(this._getRepeatButton(), param)
         break
       /* Custom actions */
       case ACTION_THUMBS_UP:
