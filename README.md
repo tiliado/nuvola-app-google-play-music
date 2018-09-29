@@ -1,4 +1,4 @@
-Google Play Music • Nuvola Apps Runtime
+Google Play Music • Nuvola Apps Runtime [![CircleCI](https://circleci.com/gh/tiliado/nuvola-app-google-play-music/tree/master.svg?style=svg)](https://circleci.com/gh/tiliado/nuvola-app-google-play-music/tree/master)
 =======================================
 
 Integration of Google Play Music into your linux desktop via

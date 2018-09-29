@@ -1,0 +1,13 @@
+version: 2
+jobs:
+  build:
+    machine: # for docker --privileged
+      image: circleci/classic:latest
+    working_directory: ~/workdir
+    steps:
+      - checkout
+      - run: 
+          name: Install deps & check project
+          command: wget https://raw.githubusercontent.com/tiliado/nuvolasdk/master/scripts/circleci.sh && chmod a+x circleci.sh && ./circleci.sh
+      - store_artifacts:
+          path: ~/workdir/keep
