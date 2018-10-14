@@ -1,5 +1,8 @@
-Changelog
-=========
+Google Play Music Changelog
+===========================
+
+6.2 - October 14th, 2018
+------------------------
 
   * Nuvola 4.13 is required.
   * The shuffle status was integrated. Issue: tiliado/nuvolaruntime#20
