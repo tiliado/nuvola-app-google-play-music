@@ -1,6 +1,9 @@
 Google Play Music Changelog
 ===========================
 
+6.3 - September 28, 2020
+------------------------
+
  * Mask as Safari to work around Google sign-in issues. Issue: tiliado/nuvolaruntime#575
 
 6.2 - October 14th, 2018
