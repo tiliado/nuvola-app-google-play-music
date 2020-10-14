@@ -73,7 +73,7 @@
     entries.push(['bool', THUMB_NEVER_TOGGLES, _('Treat thumbs up or down selection as a one-way switch,\nnot a toggle.')])
   }
 
-/**
+  /**
  * Signal handler for @link{Core::UriChanged}
  */
   WebApp._onUriChanged = function (emitter, uri) {
@@ -342,7 +342,7 @@
     }
   }
 
-// Handler for rating
+  // Handler for rating
   WebApp._onRatingSet = function (emitter, rating) {
     Nuvola.log('Rating set: {1}', rating)
     var thumbsUp = this._getThumbsUpButton()
@@ -380,4 +380,4 @@
   }
 
   WebApp.start()
-})(this)  // function(Nuvola)
+})(this) // function(Nuvola)
