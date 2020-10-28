@@ -10,6 +10,7 @@
   "categories": "AudioVideo;Audio;",
   "license": "BSD-2-Clause",
   "home_url": "https://play.google.com/music/",
+  "deprecation_url": "https://github.com/tiliado/nuvolaruntime/issues/660",
   "allowed_uri": "^https?://(ssl\\.gstatic\\.com/|play\\.google\\.com/((?!store).*)$|accounts\\.google(\\.\\w+)+/|(www\\.)?google(\\.\\w+)+/accounts|accounts\\.youtube\\.com/accounts|.*\\.googleusercontent\\.com)",
   "requirements": "Feature[MSE] Codec[mp3] Chromium[65]",
   "user_agent": "SAFARI",

@@ -1,6 +1,8 @@
 Google Play Music Changelog
 ===========================
 
+ * Script is deprecated as Google Play Music is shutting down. Issue: tiliado/nuvolaruntime#660
+
 6.3 - September 28, 2020
 ------------------------
 
