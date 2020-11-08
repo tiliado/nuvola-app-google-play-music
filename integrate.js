@@ -25,19 +25,19 @@
  */
 
 (function (Nuvola) {
-  var _ = Nuvola.Translate.gettext
-  var C_ = Nuvola.Translate.pgettext
+  const _ = Nuvola.Translate.gettext
+  const C_ = Nuvola.Translate.pgettext
 
-  var State = Nuvola.PlaybackState
-  var PlayerAction = Nuvola.PlayerAction
-  var player = Nuvola.$object(Nuvola.MediaPlayer)
+  const State = Nuvola.PlaybackState
+  const PlayerAction = Nuvola.PlayerAction
+  const player = Nuvola.$object(Nuvola.MediaPlayer)
 
-  var THUMB_NEVER_TOGGLES = 'app.thumb_never_toggles'
-  var ACTION_THUMBS_UP = 'thumbs-up'
-  var ACTION_THUMBS_DOWN = 'thumbs-down'
-  var THUMBS_ACTIONS = [ACTION_THUMBS_UP, ACTION_THUMBS_DOWN]
+  const THUMB_NEVER_TOGGLES = 'app.thumb_never_toggles'
+  const ACTION_THUMBS_UP = 'thumbs-up'
+  const ACTION_THUMBS_DOWN = 'thumbs-down'
+  const THUMBS_ACTIONS = [ACTION_THUMBS_UP, ACTION_THUMBS_DOWN]
 
-  var WebApp = Nuvola.$WebApp()
+  const WebApp = Nuvola.$WebApp()
 
   WebApp._onInitAppRunner = function (emitter) {
     Nuvola.WebApp._onInitAppRunner.call(this, emitter)
@@ -55,7 +55,7 @@
     this.thumbsDown = undefined
     this.state = State.UNKNOWN
     player.addExtraActions(THUMBS_ACTIONS)
-    var state = document.readyState
+    const state = document.readyState
     if (state === 'interactive' || state === 'complete') {
       this._onPageReady()
     } else {
@@ -108,7 +108,7 @@
   }
 
   WebApp.update = function () {
-    var elm
+    let elm
     /* Fix for Google Play Music shows an incomplete queue. https://github.com/tiliado/nuvolaplayer/issues/106 */
     if (!this._queueOverlayFixed && (elm = document.getElementById('queue-overlay')) && elm.hasAttribute('layout')) {
       elm.removeAttribute('layout')
@@ -116,9 +116,9 @@
     }
 
     this.state = State.UNKNOWN
-    var prevSong, nextSong
+    let prevSong, nextSong
     try {
-      var pp = this._getPlayPauseButton()
+      const pp = this._getPlayPauseButton()
       if (pp.disabled === true) { this.state = State.UNKNOWN } else if (pp.className.indexOf('playing') !== -1) {
         this.state = State.PLAYING
       } else {
@@ -144,7 +144,7 @@
     player.setCanGoNext(nextSong)
     player.setCanRate(this.state !== State.UNKNOWN)
 
-    var track = {}
+    const track = {}
     try {
       track.artLocation = document.querySelector('#playerSongInfo #playerBarArt').src.replace('=s90-', '=s500-')
     } catch (e) {
@@ -175,8 +175,8 @@
     elm = document.getElementById('time_container_duration')
     track.length = elm ? elm.innerText || null : null
 
-    var thumbsUp = this._getThumbsUpButton()
-    var thumbsDown = this._getThumbsDownButton()
+    const thumbsUp = this._getThumbsUpButton()
+    const thumbsDown = this._getThumbsDownButton()
     if (this._isThumbSelected(thumbsUp)) { track.rating = 1.0 } else if (this._isThumbSelected(thumbsDown)) {
       track.rating = 0.20
     } else {
@@ -184,12 +184,12 @@
     }
     player.setTrack(track)
 
-    var shuffle = this._getShuffleButton()
-    var repeat = this._getRepeatStatus(this._getRepeatButton())
+    const shuffle = this._getShuffleButton()
+    const repeat = this._getRepeatStatus(this._getRepeatButton())
 
     // Extract enabled flag and state from a web page
-    var actionsEnabled = {}
-    var actionsStates = {}
+    const actionsEnabled = {}
+    const actionsStates = {}
     actionsStates[ACTION_THUMBS_UP] = this._isThumbSelected(thumbsUp)
     actionsStates[ACTION_THUMBS_DOWN] = this._isThumbSelected(thumbsDown)
     actionsStates[PlayerAction.SHUFFLE] = shuffle && shuffle.classList.contains('active')
@@ -256,13 +256,14 @@
     if (!button) {
       return null
     }
-    var classes = button.classList
+    const classes = button.classList
     if (!classes.contains('active')) {
       return Nuvola.PlayerRepeat.NONE
     }
-    var icon = button.firstElementChild.firstElementChild.firstElementChild.firstElementChild.getAttribute('d')
+    const icon = button.firstElementChild.firstElementChild.firstElementChild.firstElementChild.getAttribute('d')
     return (icon === 'M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4zm-4-2V9h-1l-2 1v1h1.5v4H13z'
-      ? Nuvola.PlayerRepeat.TRACK : Nuvola.PlayerRepeat.PLAYLIST)
+      ? Nuvola.PlayerRepeat.TRACK
+      : Nuvola.PlayerRepeat.PLAYLIST)
   }
 
   WebApp._setRepeatStatus = function (button, repeat) {
@@ -276,10 +277,10 @@
   }
 
   WebApp._onActionActivated = function (emitter, name, param) {
-    var prevSong = this._getGoPrevButton()
-    var nextSong = this._getGoNextButton()
-    var playPause = this._getPlayPauseButton()
-    var luckyMix = this._luckyMix()
+    const prevSong = this._getGoPrevButton()
+    const nextSong = this._getGoNextButton()
+    const playPause = this._getPlayPauseButton()
+    const luckyMix = this._luckyMix()
 
     switch (name) {
     /* Base media player actions */
@@ -313,19 +314,21 @@
           nextSong.click()
         }
         break
-      case PlayerAction.SEEK:
-        var elm = document.getElementById('time_container_duration')
-        var total = Nuvola.parseTimeUsec(elm ? elm.innerText : null)
+      case PlayerAction.SEEK: {
+        const elm = document.getElementById('time_container_duration')
+        const total = Nuvola.parseTimeUsec(elm ? elm.innerText : null)
         if (param > 0 && param <= total) {
           Nuvola.clickOnElement(document.getElementById('progressContainer'), param / total, 0.5)
         }
         break
-      case PlayerAction.CHANGE_VOLUME:
-        elm = document.querySelector('#volume #sliderBar')
+      }
+      case PlayerAction.CHANGE_VOLUME: {
+        const elm = document.querySelector('#volume #sliderBar')
         if (elm) {
           Nuvola.clickOnElement(elm, param)
         }
         break
+      }
       case PlayerAction.SHUFFLE:
         Nuvola.clickOnElement(this._getShuffleButton())
         break
@@ -345,8 +348,8 @@
   // Handler for rating
   WebApp._onRatingSet = function (emitter, rating) {
     Nuvola.log('Rating set: {1}', rating)
-    var thumbsUp = this._getThumbsUpButton()
-    var thumbsDown = this._getThumbsDownButton()
+    const thumbsUp = this._getThumbsUpButton()
+    const thumbsDown = this._getThumbsDownButton()
     if (rating < 0.01) { // Unset rating
       if (this._isThumbSelected(thumbsUp)) {
         thumbsUp.click()
